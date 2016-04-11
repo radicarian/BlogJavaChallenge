@@ -55,7 +55,7 @@ application built and running, and can be safely ignored. The `BlogJavaFrontend`
 project contains a working Javascript client to the backend, if you want to see
 how it's making calls.
 
-The project `BlogJsBackend` is where you'll be spending your time. The server is
+The project `BlogJavaBackend` is where you'll be spending your time. The server is
 based on [Dropwizard](http://www.dropwizard.io/0.9.2/docs/), which exposes both
 the REST API and the web app to the world.
 
