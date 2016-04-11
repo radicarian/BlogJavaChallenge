@@ -11,7 +11,7 @@ Currently, the application is backed by a simple in-memory hashtable. The goal
 of this exercise is to replace that implementation with a real database,
 capable of storing, retrieving, and deleting blog posts.
 
-You can choose the database (SQLites, MongoDB, PostgreSQL, or whatever) and
+You can choose the database (SQLite, MongoDB, PostgreSQL, or whatever) and
 the interface method (Hibernate, hand-written SQL, etc).
 
 You can use whatever tools you're most comfortable with. Google anything you
