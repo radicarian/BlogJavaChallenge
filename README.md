@@ -1,4 +1,4 @@
-# Javascript Challenge: Blog #
+# Java Challenge: Blog #
 
 This project is designed to test your skills as a back-end web developer,
 using the same tools and technologies our team employs on a daily basis.
