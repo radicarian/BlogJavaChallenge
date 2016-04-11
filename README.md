@@ -84,7 +84,8 @@ when a post is saved.
 
 On the server side, `BlogPost.pullQuote` and `BlogPost.body` should be rendered
 to HTML using the (included) [Pegdown](https://github.com/sirthias/pegdown)
-processor.
+processor, and stored at `BlogPost.pullQuoteAsHtml` and `BlogPost.bodyAsHtml`,
+respectively.
 
 `BlogPost.postDate` is a `long` containing a Unix timestamp. You can change that,
 if you want, but the web client requires a `long` to be sent back over the wire.
