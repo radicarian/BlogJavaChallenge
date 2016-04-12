@@ -53,9 +53,8 @@ public class BlogDB
 	private void CreateDatabase() {
 	    try {
             Statement statement = database.createStatement();
-            statement.setQueryTimeout(10);  // set timeout to 10 sec.
+            statement.setQueryTimeout(10);
 
-            //statement.executeUpdate("drop table if exists posts");
             statement.executeUpdate("create table if not exists posts (UUID string unique primary key, " +
                                     "TITLE string, DATE integer, AUTHOR string, EMAIL string, " +
                                     "QUOTE string, BODY string, QUOTE_H string, BODY_H string)");
@@ -76,7 +75,6 @@ public class BlogDB
             selectStatement.setQueryTimeout(10);
 
             insertStatement = database.prepareStatement(
-				//"insert into posts values (?,?,?,?,?,?,?,?,?)");
 				"insert or replace into posts values (?,?,?,?,?,?,?,?,?)");
 			insertStatement.setQueryTimeout(10);
         } catch ( Exception e ) {
@@ -180,7 +178,7 @@ public class BlogDB
 		try {
 
 			Statement statement = database.createStatement();
-            statement.setQueryTimeout(10);  // set timeout to 10 sec.
+            statement.setQueryTimeout(10);
             ResultSet rows = statement.executeQuery("select * from posts");
             while (rows.next()) {
 				result.add(parseRow(rows));
