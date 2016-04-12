@@ -14,7 +14,7 @@ public class Populator
         db.store( jabber );
         
         long loremDate = new LocalDate( 2016, 4, 7 ).toDate().getTime();
-        BlogPost lorem = new BlogPost( null, "Lorem Ipsum", loremDate, "Cicero", "cicero@romanrepublic.gov", loremQuote(), loremIpsumParagraphs(), null, null );
+        BlogPost lorem = new BlogPost( "testuuid", "Lorem Ipsum", loremDate, "Cicero", "cicero@romanrepublic.gov", loremQuote(), loremIpsumParagraphs(), null, null );
         db.store( lorem );
         
         long cthulhuDate = new LocalDate( 1928, 2, 1 ).toDate().getTime();
