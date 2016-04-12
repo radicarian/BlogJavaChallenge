@@ -119,12 +119,12 @@ public class BlogDB
 			insertStatement.setString(6, pull);
 			insertStatement.setString(7, body);
 			insertStatement.setString(8, !StringUtils.isBlank( pull ) ?
-				                         pegdown.markdownToHtml( pull ) :
-				                         "");
+			                             pegdown.markdownToHtml( pull ) :
+			                             "");
 
 			insertStatement.setString(9, !StringUtils.isBlank( body ) ?
-										 pegdown.markdownToHtml( body ) :
-							             "");
+			                             pegdown.markdownToHtml( body ) :
+			                             "");
 			insertStatement.executeUpdate();
 		} catch ( Exception e ) {
 		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
