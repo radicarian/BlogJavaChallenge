@@ -30,28 +30,28 @@ public class BlogDB
     public BlogDB() {
         try {
             // load the sqlite-JDBC driver using the current class loader
-  	        Class.forName("org.sqlite.JDBC");
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
+              Class.forName("org.sqlite.JDBC");
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
         ConnectDatabase();
         CreateDatabase();
         CreateStatements();
     }
 
     private void ConnectDatabase() {
-		try {
-		    database = DriverManager.getConnection("jdbc:sqlite:blog.db");
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-		System.out.println("Opened database successfully");
-	}
+        try {
+            database = DriverManager.getConnection("jdbc:sqlite:blog.db");
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        System.out.println("Opened database successfully");
+    }
 
-	private void CreateDatabase() {
-	    try {
+    private void CreateDatabase() {
+        try {
             Statement statement = database.createStatement();
             statement.setQueryTimeout(10);
 
@@ -59,42 +59,42 @@ public class BlogDB
                                     "TITLE string, DATE integer, AUTHOR string, EMAIL string, " +
                                     "QUOTE string, BODY string, QUOTE_H string, BODY_H string)");
         } catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-	}
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
 
-	private void CreateStatements() {
+    private void CreateStatements() {
         try {
             deleteStatement = database.prepareStatement(
-				"delete from posts where UUID = ?");
+                "delete from posts where UUID = ?");
             deleteStatement.setQueryTimeout(10);
 
             selectStatement = database.prepareStatement(
-				"select * from posts where UUID = ?");
+                "select * from posts where UUID = ?");
             selectStatement.setQueryTimeout(10);
 
             insertStatement = database.prepareStatement(
-				"insert or replace into posts values (?,?,?,?,?,?,?,?,?)");
-			insertStatement.setQueryTimeout(10);
+                "insert or replace into posts values (?,?,?,?,?,?,?,?,?)");
+            insertStatement.setQueryTimeout(10);
         } catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-	}
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+    }
 
-	private BlogPost parseRow(ResultSet row) {
-		BlogPost result = null;
+    private BlogPost parseRow(ResultSet row) {
+        BlogPost result = null;
         try {
-			result = new BlogPost(row.getString(1), row.getString(2), row.getLong(3),
-			                      row.getString(4), row.getString(5), row.getString(6),
-			                      row.getString(7), row.getString(8), row.getString(9));
-		} catch ( Exception e ) {
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
-		}
-		return result;
-	}
+            result = new BlogPost(row.getString(1), row.getString(2), row.getLong(3),
+                                  row.getString(4), row.getString(5), row.getString(6),
+                                  row.getString(7), row.getString(8), row.getString(9));
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return result;
+    }
 
     /**
      * Creates of updates a blog post, and returns its UUID.
@@ -102,35 +102,35 @@ public class BlogDB
      * @return the UUID
      */
     public String store( BlogPost post ){
-		String uuid = "";
+        String uuid = "";
         try {
-			uuid = StringUtils.isBlank(post.getUuid()) ?
-			       UUID.randomUUID().toString() :
-			       post.getUuid();
-			insertStatement.setString(1, uuid);
-			insertStatement.setString(2, post.getTitle());
-			insertStatement.setLong(3, post.getPubDate() == 0 ?
-			                           new Date().getTime() :
-			                           post.getPubDate());
-			insertStatement.setString(4, post.getAuthor());
-			insertStatement.setString(5, post.getAuthorEmail());
-			String pull = post.getPullQuote();
-			String body = post.getBody();
-			insertStatement.setString(6, pull);
-			insertStatement.setString(7, body);
-			insertStatement.setString(8, !StringUtils.isBlank( pull ) ?
-			                             pegdown.markdownToHtml( pull ) :
-			                             "");
+            uuid = StringUtils.isBlank(post.getUuid()) ?
+                   UUID.randomUUID().toString() :
+                   post.getUuid();
+            insertStatement.setString(1, uuid);
+            insertStatement.setString(2, post.getTitle());
+            insertStatement.setLong(3, post.getPubDate() == 0 ?
+                                       new Date().getTime() :
+                                       post.getPubDate());
+            insertStatement.setString(4, post.getAuthor());
+            insertStatement.setString(5, post.getAuthorEmail());
+            String pull = post.getPullQuote();
+            String body = post.getBody();
+            insertStatement.setString(6, pull);
+            insertStatement.setString(7, body);
+            insertStatement.setString(8, !StringUtils.isBlank( pull ) ?
+                                         pegdown.markdownToHtml( pull ) :
+                                         "");
 
-			insertStatement.setString(9, !StringUtils.isBlank( body ) ?
-			                             pegdown.markdownToHtml( body ) :
-			                             "");
-			insertStatement.executeUpdate();
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-		return uuid;
+            insertStatement.setString(9, !StringUtils.isBlank( body ) ?
+                                         pegdown.markdownToHtml( body ) :
+                                         "");
+            insertStatement.executeUpdate();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return uuid;
     }
 
     /**
@@ -138,13 +138,13 @@ public class BlogDB
      * @param uuid
      */
     public void delete( String uuid ){
-		try {
-			deleteStatement.setString(1, uuid);
-			deleteStatement.executeUpdate();
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
+        try {
+            deleteStatement.setString(1, uuid);
+            deleteStatement.executeUpdate();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
     }
 
     /**
@@ -153,20 +153,20 @@ public class BlogDB
      * @return the blog post
      */
     public BlogPost get( String uuid ) {
-		BlogPost result = null;
-		try {
-			selectStatement.setString(1, uuid);
-			ResultSet row = selectStatement.executeQuery();
-			if (!row.isBeforeFirst() ) {
-			    return null;
+        BlogPost result = null;
+        try {
+            selectStatement.setString(1, uuid);
+            ResultSet row = selectStatement.executeQuery();
+            if (!row.isBeforeFirst() ) {
+                return null;
             }
             row.next();
             result = parseRow(row);
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-		return result;
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return result;
     }
 
     /**
@@ -174,21 +174,21 @@ public class BlogDB
      * @return all blog posts in the database.
      */
     public List<BlogPost> get(){
-	    List<BlogPost> result = new ArrayList();
-		try {
+        List<BlogPost> result = new ArrayList();
+        try {
 
-			Statement statement = database.createStatement();
+            Statement statement = database.createStatement();
             statement.setQueryTimeout(10);
             ResultSet rows = statement.executeQuery("select * from posts");
             while (rows.next()) {
-				result.add(parseRow(rows));
-			}
+                result.add(parseRow(rows));
+            }
 
-			Collections.sort( result, new BlogPostComparator() );
-		} catch ( Exception e ) {
-		    System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		    System.exit(0);
-		}
-		return result;
+            Collections.sort( result, new BlogPostComparator() );
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
+        }
+        return result;
     }
 }
